@@ -1,18 +1,27 @@
 import React from 'react'
-
 import star from '../images/star.png'
-const Card = ({id, title, description, price, coverImg, stats, location}) => {
-  const {rating, reviewCount} = stats
+
+const Card = ({item}) => {
+  const {coverImg, stats, openSpots, location, title, price } = item
+
+  let badgeText;
+  if(openSpots === 0) {
+    badgeText = 'SOLD OUT'
+  } else if (location === 'Online') {
+    badgeText = 'ONLINE'
+  }
+
   return (
-    <div className='card' key={id}>
+    <div className='card'>
+        {badgeText && <div className='card--badge'>{badgeText}</div>}
         <img src={coverImg} className='card--image'/>
         <div className='card--stats'>
-            
-            <span className='gray'>{rating} ({reviewCount}) • </span>
-            <span className='gray'>USA</span>
+            <img src={star} className='card--star' />
+            <span className='gray'>{stats.rating} ({stats.reviewCount}) • </span>
+            <span className='gray'>{location}</span>
         </div>
-        <p>{title}</p>
-        <p><span className='bold'>From ${price}</span> / person</p>
+        <p className='card--title'>{title}</p>
+        <p className='card--price'><span className='bold'>From ${price}</span> / person</p>
     </div>
   )
 }
